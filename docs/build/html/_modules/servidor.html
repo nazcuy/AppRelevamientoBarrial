@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>servidor &#8212; documentación de App Relevamiento Barrial - 0.1</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8e8a900e" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/pdj.css?v=12f78f94" />
+
+<link rel="stylesheet" href="../_static/css/darker.css" type="text/css"
+      media="(prefers-color-scheme: dark)"/>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'/>
+    <script src="../_static/documentation_options.js?v=9c9b61ad"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/pdj.js"></script>
+
+    <script type="module" src="../_static/js/dark-mode-toggle.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+  </head>  <body class="wy-body-for-nav" role="document"> 
+
+<section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+  <nav class="wy-nav-top" id="barra-mobile" role="navigation" aria-label="top navigation">
+    <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+    <a href="#">App Relevamiento Barrial </a>
+  </nav>
+
+  <div class="wy-nav-content">
+    <div class="fundo-claro">
+    </div>
+    <div class="fundo-escuro">
+    </div>
+
+    <div class="rst-content">
+      <div role="navigation" aria-label="breadcrumbs navigation">
+      </div>
+      <div role="main" class="">
+
+	<div id="content" class="hfeed entry-container hentry">
+      	  <div id="dark-mode-toggle-container">
+	    <dark-mode-toggle appearance="toggle" class="slider" dark="" light="">
+	    </dark-mode-toggle>
+	  </div>
+  <h1>Código fuente para servidor</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Servidor.</span>
+
+<span class="sd">Este módulo implementa un servidor de logs que escucha mensajes entrantes en un puerto</span>
+<span class="sd">específico y los guarda en un archivo .txt</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="c1">#Configuración del host y puerto para el servidor de logs.</span>
+<span class="c1">#HOST = &#39;&#39; #Profe le saco la IP y el puerto para enviarlo.</span>
+<span class="c1">#PORT = #Profe le saco la IP y el puerto para enviarlo.</span>
+
+<div class="viewcode-block" id="iniciar_servidor">
+<a class="viewcode-back" href="../servidor.html#servidor.iniciar_servidor">[documentos]</a>
+<span class="k">def</span> <span class="nf">iniciar_servidor</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Inicia el servidor de logs.</span>
+
+<span class="sd">    El servidor escucha conexiones entrantes y, por cada mensaje recibido, añade un timestamp</span>
+<span class="sd">    y lo guarda en el archivo &#39;log.txt&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="n">HOST</span><span class="p">,</span> <span class="n">PORT</span><span class="p">))</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1">#Escucha una conexión a la vez</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Servidor de logs escuchando en el puerto </span><span class="si">{</span><span class="n">PORT</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+        
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">conn</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>  <span class="c1">#Acepta una nueva conexión</span>
+            <span class="k">with</span> <span class="n">conn</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Conectado por&#39;</span><span class="p">,</span> <span class="n">addr</span><span class="p">)</span>
+                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>  <span class="c1">#Recibe datos del cliente</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+                        <span class="k">break</span>  <span class="c1">#Si no hay datos, termina el bucle</span>
+                    
+                    <span class="c1">#Añade un timestamp al log</span>
+                    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+                    <span class="n">log_entry</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    
+                    <span class="c1">#Guarda el log en un archivo</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;log.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">log_entry</span><span class="p">)</span>
+                    
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Log recibido: </span><span class="si">{</span><span class="n">log_entry</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+                    
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">iniciar_servidor</span><span class="p">()</span>
+</pre></div>
+
+	</div>
+      </div>
+
+      
+      <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      &copy; Copyright 2025, Azcuy Nicolás.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/jucacrispim/sphinx_pdj_theme">theme</a> provided by <a href="https://poraodojuca.dev">Porão do Juca</a>.
+
+</footer>
+      
+
+      <div class="clearer"></div>
+    </div>
+  </div>
+
+</section>
+
+<nav data-toggle="wy-nav-shift" class="wy-nav-side">
+  <div class="wy-side-nav-search">
+    
+    <a href="../index.html" class="fa fa-home"> App Relevamiento Barrial </a>
+    
+    
+    <div role="search">
+      
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Búsqueda" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      
+    </div>
+  </div>
+
+  <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+    
+      
+      
+	  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">AppRelevamientoPython</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../controlador.html">controlador module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../main.html">Modulo «main.py»</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modelo.html">modelo module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../observador.html">Módulo «observador.py»</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../servidor.html">servidor.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vista.html">vista.py</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../main.html">Modulo «main.py»</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modelo.html">modelo module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../modelo.html#modelo.Abmc"><code class="docutils literal notranslate"><span class="pre">Abmc</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modelo.html#modelo.Conexion_de_BD"><code class="docutils literal notranslate"><span class="pre">Conexion_de_BD</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modelo.html#modelo.Vivienda"><code class="docutils literal notranslate"><span class="pre">Vivienda</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vista.html">vista.py</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../vista.html#vista.Aplicacion"><code class="docutils literal notranslate"><span class="pre">Aplicacion</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vista.html#vista.validar_campos"><code class="docutils literal notranslate"><span class="pre">validar_campos()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../controlador.html">controlador module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../controlador.html#controlador.Controlador"><code class="docutils literal notranslate"><span class="pre">Controlador</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../observador.html">Módulo «observador.py»</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../observador.html#observador.Observador"><code class="docutils literal notranslate"><span class="pre">Observador</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../observador.html#codigo-fuente">Código fuente:</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../servidor.html">servidor.py</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../servidor.html#servidor.iniciar_servidor"><code class="docutils literal notranslate"><span class="pre">iniciar_servidor()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+      
+    
+
+  </div>
+  &nbsp;
+</nav>
+
+  </body>
+</html>

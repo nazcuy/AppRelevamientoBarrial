@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Módulo «servidor.py» &#8212; documentación de App Relevamiento Barrial - 0.1</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/pdj.css?v=12f78f94" />
+
+<link rel="stylesheet" href="_static/css/darker.css" type="text/css"
+      media="(prefers-color-scheme: dark)"/>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'/>
+    <script src="_static/documentation_options.js?v=9c9b61ad"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/translations.js?v=f85f4cfb"></script>
+    <script src="_static/js/pdj.js"></script>
+
+    <script type="module" src="_static/js/dark-mode-toggle.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="prev" title="Módulo «observador.py»" href="observador.html" /> 
+  </head>  <body class="wy-body-for-nav" role="document"> 
+
+<section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+  <nav class="wy-nav-top" id="barra-mobile" role="navigation" aria-label="top navigation">
+    <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+    <a href="#">App Relevamiento Barrial </a>
+  </nav>
+
+  <div class="wy-nav-content">
+    <div class="fundo-claro">
+    </div>
+    <div class="fundo-escuro">
+    </div>
+
+    <div class="rst-content">
+      <div role="navigation" aria-label="breadcrumbs navigation">
+      </div>
+      <div role="main" class="">
+
+	<div id="content" class="hfeed entry-container hentry">
+      	  <div id="dark-mode-toggle-container">
+	    <dark-mode-toggle appearance="toggle" class="slider" dark="" light="">
+	    </dark-mode-toggle>
+	  </div>
+  <section id="modulo-servidor-py">
+<h1>Módulo «servidor.py»<a class="headerlink" href="#modulo-servidor-py" title="Link to this heading">¶</a></h1>
+<p>Este módulo implementa un servidor de logs que escucha mensajes entrantes en un puerto
+específico y los guarda en un archivo <cite>.txt</cite>.</p>
+<section id="codigo-fuente">
+<h2>Código fuente<a class="headerlink" href="#codigo-fuente" title="Link to this heading">¶</a></h2>
+<p>A continuación, se presenta el código completo del servidor:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 2</span><span class="sd">Servidor.</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="sd">Este módulo implementa un servidor de logs que escucha mensajes entrantes en un puerto</span>
+<span class="linenos"> 5</span><span class="sd">específico y los guarda en un archivo .txt</span>
+<span class="linenos"> 6</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 7</span><span class="kn">import</span> <span class="nn">socket</span>
+<span class="linenos"> 8</span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="c1"># Configuración del host y puerto para el servidor de logs.</span>
+<span class="linenos">11</span><span class="n">HOST</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>  <span class="c1"># Dirección del servidor (localhost para pruebas locales)</span>
+<span class="linenos">12</span><span class="n">PORT</span> <span class="o">=</span> <span class="mi">12345</span>  <span class="c1"># Puerto de escucha</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="k">def</span> <span class="nf">iniciar_servidor</span><span class="p">():</span>
+<span class="linenos">15</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">16</span><span class="sd">    Inicia el servidor de logs.</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="sd">    El servidor escucha conexiones entrantes y, por cada mensaje recibido, añade un timestamp</span>
+<span class="linenos">19</span><span class="sd">    y lo guarda en el archivo &#39;log.txt&#39;.</span>
+<span class="linenos">20</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos">21</span>    <span class="k">with</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+<span class="linenos">22</span>        <span class="n">s</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="n">HOST</span><span class="p">,</span> <span class="n">PORT</span><span class="p">))</span>  <span class="c1"># Vincula el socket al host y puerto</span>
+<span class="linenos">23</span>        <span class="n">s</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Escucha una conexión a la vez</span>
+<span class="linenos">24</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Servidor de logs escuchando en el puerto </span><span class="si">{</span><span class="n">PORT</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="linenos">27</span>            <span class="n">conn</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>  <span class="c1"># Acepta una nueva conexión</span>
+<span class="linenos">28</span>            <span class="k">with</span> <span class="n">conn</span><span class="p">:</span>
+<span class="linenos">29</span>                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Conectado por&#39;</span><span class="p">,</span> <span class="n">addr</span><span class="p">)</span>
+<span class="linenos">30</span>                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="linenos">31</span>                    <span class="n">data</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>  <span class="c1"># Recibe datos del cliente</span>
+<span class="linenos">32</span>                    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+<span class="linenos">33</span>                        <span class="k">break</span>  <span class="c1"># Si no hay datos, termina el bucle</span>
+<span class="linenos">34</span>
+<span class="linenos">35</span>                    <span class="c1"># Añade un timestamp al log</span>
+<span class="linenos">36</span>                    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+<span class="linenos">37</span>                    <span class="n">log_entry</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="linenos">38</span>
+<span class="linenos">39</span>                    <span class="c1"># Guarda el log en un archivo</span>
+<span class="linenos">40</span>                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;log.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="linenos">41</span>                        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">log_entry</span><span class="p">)</span>
+<span class="linenos">42</span>
+<span class="linenos">43</span>                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Log recibido: </span><span class="si">{</span><span class="n">log_entry</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">44</span>
+<span class="linenos">45</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos">46</span>    <span class="n">iniciar_servidor</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+	</div>
+      </div>
+
+      
+      <footer>
+  
+  <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+    
+    
+    <a href="observador.html" class="btn btn-neutral" title="Módulo «observador.py»"><span class="fa fa-arrow-circle-left"></span>Previous</a>
+    
+  </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      &copy; Copyright 2025, Azcuy Nicolás.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/jucacrispim/sphinx_pdj_theme">theme</a> provided by <a href="https://poraodojuca.dev">Porão do Juca</a>.
+
+</footer>
+      
+
+      <div class="clearer"></div>
+    </div>
+  </div>
+
+</section>
+
+<nav data-toggle="wy-nav-shift" class="wy-nav-side">
+  <div class="wy-side-nav-search">
+    
+    <a href="index.html" class="fa fa-home"> App Relevamiento Barrial </a>
+    
+    
+    <div role="search">
+      
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Búsqueda" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      
+    </div>
+  </div>
+
+  <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+    
+      
+      
+	  <p class="caption" role="heading"><span class="caption-text">Contenido:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">AppRelevamientoPython</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="main.html">Módulo «main.py»</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modelo.html">Módulo «modelo.py»</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vista.html">Módulo «vista.py»</a></li>
+<li class="toctree-l2"><a class="reference internal" href="controlador.html">Módulo «controlador.py»</a></li>
+<li class="toctree-l2"><a class="reference internal" href="observador.html">Módulo «observador.py»</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Módulo «servidor.py»</a></li>
+</ul>
+</li>
+</ul>
+
+      
+    
+
+  </div>
+  &nbsp;
+</nav>
+
+  </body>
+</html>
